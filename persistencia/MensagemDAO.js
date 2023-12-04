@@ -5,7 +5,7 @@ export default class MensagemDAO {
 
     async gravar(mensagem) {
         if (mensagem instanceof Mensagem) {
-            const sql = "INSERT INTO mensagens(dataHora, lida, mensagem, id_usuario) VALUES (STR_TO_DATE(?,'%d/%m/%Y %H:%i:%s'), ?, ?, ?)";
+            const sql = "INSERT INTO mensagens(dataHora, lida, mensagem, id_usuario) VALUES (STR_TO_DATE(?,'%d/%m/%Y, %H:%i:%s'), ?, ?, ?)";
             const dados = [mensagem.dataHora, mensagem.lida, mensagem.mensagem, mensagem.usuario.id];
             const conexao = await conectarBanco();
             const resultado = await conexao.execute(sql, dados);
