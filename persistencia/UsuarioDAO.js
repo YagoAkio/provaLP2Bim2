@@ -41,7 +41,7 @@ export default class UsuarioDAO {
             sql = `SELECT u.id, u.usuario, u.urlAvatar, u.dataIngresso,
             m.id as id_mensagem, m.dataHora, m.lida, m.mensagem, m.id_usuario 
             FROM usuario u
-            INNER JOIN mensagens m ON u.id = m.id_usuario
+            LEFT JOIN mensagens m ON u.id = m.id_usuario
             WHERE u.usuario LIKE ?
             ORDER BY m.dataHora ASC`;
             parametros.push(`%${termo}%`);
@@ -49,7 +49,7 @@ export default class UsuarioDAO {
             sql = sql = `SELECT u.id, u.usuario, u.urlAvatar, u.dataIngresso,
                          m.id as id_mensagem, m.dataHora, m.lida, m.mensagem, m.id_usuario 
             FROM usuario u
-            INNER JOIN mensagens m ON u.id = m.id_usuario
+            LEFT JOIN mensagens m ON u.id = m.id_usuario
             WHERE u.id = ?
             ORDER BY m.dataHora ASC`;;
             parametros.push(termo);
@@ -68,8 +68,10 @@ export default class UsuarioDAO {
         for (const [key, registro] of Object.entries(registros)) {
             let mensagens = [];
             for (const linha of registro) {
-                const mensagem = new Mensagem(linha.id_mensagem, linha.lida, linha.mensagem, linha.dataHora, {});
-                mensagens.push(mensagem);
+                if (linha.id_mensagem){
+                    const mensagem = new Mensagem(linha.id_mensagem, linha.lida, linha.mensagem, linha.dataHora, {});
+                    mensagens.push(mensagem);
+                }
             }
             const usuario = new Usuario(registro[0].id, registro[0].usuario, registro[0].urlAvatar, registro[0].dataIngresso, mensagens);
             usuarios.push(usuario)
