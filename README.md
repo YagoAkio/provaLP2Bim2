@@ -196,6 +196,22 @@ Resposta do servidor
 }
 ```
 
+## PUT/PATCH
+
+É possível somente alterar a propriedade "lido" da mensagem, para isso será preciso enviar o seguinte JSON:
+```json
+{
+    "id":10,
+    "lido": true,
+}
+```
+
+Resposta do servidor
+```json
+{
+    "status":true,
+    "mensagem": "Mensagem atualizada com sucesso!"
+}
 
 ## DELETE
 
